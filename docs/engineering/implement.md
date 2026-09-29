@@ -1,6 +1,6 @@
 ## What it does
 
-`implement` builds work that has already been decided. You point it at a [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket), a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), or the plan you just agreed in the conversation, and it writes the code, drives [tdd](https://aihero.dev/skills-tdd) at the seams, typechecks as it goes, runs [two-axis-review](https://aihero.dev/skills-two-axis-review) at the end, and commits to the current branch.
+`implement` builds work that has already been decided. You point it at a [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket), a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), or the plan you just agreed in the conversation, and it writes the code, drives [tdd](https://aihero.dev/skills-tdd) at the seams, typechecks as it goes, runs [two-axis-review](https://aihero.dev/skills-two-axis-review) at the end, shows you what it changed and waits for your approval, then commits to the current branch.
 
 It never reopens the plan. There is no interview, no clarifying round, no proposal of a different approach. Whatever was settled upstream is the input, and the skill's whole job is to turn that into a commit. That is what separates it from typing "build this" at a fresh [agent](https://www.aihero.dev/ai-coding-dictionary/agent), which will happily redesign the work while it builds it.
 
@@ -30,13 +30,15 @@ If the tickets came from [to-tickets](https://aihero.dev/skills-to-tickets), the
 
 ## What one run does
 
-A run is five beats, in order:
+A run is seven beats, in order:
 
 1. Read the ticket or spec and work out the seams.
 2. Drive [tdd](https://aihero.dev/skills-tdd) at the pre-agreed seams, one red-green slice at a time.
-3. Typecheck often, run single test files as it goes.
+3. Typecheck often, run single test files as it goes, and tick the ticket's `- [ ]` boxes as each one lands, annotating the line **[marked by agent]**.
 4. Run the full test suite once, at the end.
-5. Run [two-axis-review](https://aihero.dev/skills-two-axis-review), then commit to the current branch.
+5. Run [two-axis-review](https://aihero.dev/skills-two-axis-review).
+6. Open the most important file in VS Code, print the colour-coded diff in the terminal, and wait for you to approve the work as complete.
+7. Mark the ticket complete if the tracker is local markdown, then commit to the current branch.
 
 One run covers one ticket. The tickets [to-tickets](https://aihero.dev/skills-to-tickets) produces are tracer-bullet vertical slices sized to fit a single fresh [context window](https://www.aihero.dev/ai-coding-dictionary/context-window), so the intended rhythm is: clear context, implement one ticket, commit, clear again. Each ticket is self-contained, which is what makes the previous ticket's context disposable.
 
@@ -48,9 +50,9 @@ The word "pre-agreed" is doing real work, and it is also the skill's weakest joi
 
 ## Common questions
 
-**It finished, but my ticket is still open and the acceptance criteria are still unchecked.**
+**It finished, but my ticket is still open.**
 
-Correct, and expected. `implement` has no completion step. It ends at the commit and never touches the work item, confirmed on GitHub Issues and on the local markdown tracker, so it is not a tracker integration problem. It also does not act on the findings `two-axis-review` produced, and does not tick the `- [ ]` boxes on the originating issue. Close the ticket and reconcile the criteria yourself. This bites hardest on a dependency chain, because `to-tickets` defines the frontier as tickets whose blockers are all closed. If nothing gets closed, nothing ever becomes visibly unblocked.
+Expected on GitHub. The completion step is conditioned on the tracker: on the local markdown tracker `implement` marks the ticket done, and on GitHub Issues it ends at the commit and never touches the work item, so it is not a tracker integration problem. The acceptance criteria are a separate matter and do get ticked as the work lands, each annotated **[marked by agent]** so you can tell the agent's claim from your own. What it still does not do is act on the findings `two-axis-review` produced. On GitHub, close the ticket yourself. This bites hardest on a dependency chain, because `to-tickets` defines the frontier as tickets whose blockers are all closed. If nothing gets closed, nothing ever becomes visibly unblocked.
 
 **Can I point it at all my tickets at once, or run several in parallel?**
 
@@ -79,7 +81,9 @@ Probably the ticket is too big rather than the skill being misused. A run does c
 - The session opens by reading the ticket or spec and restating what it will build, rather than asking you what to build.
 - You can see an actual `/tdd` invocation in the trace, not just tests appearing in the diff.
 - Typechecks and single test files run repeatedly during the run, and the full suite runs once near the end.
-- The run reaches a commit on your current branch without you prompting it to carry on.
+- The ticket's `- [ ]` boxes get ticked as the work lands, each marked **[marked by agent]**.
+- The run pauses for your approval, showing the changed file and its diff, before it commits.
+- The run reaches a commit on your current branch once you have approved.
 - The diff is one ticket's worth of change: a vertical slice through every layer, not several tickets swept together.
 
 ## Where it fits
