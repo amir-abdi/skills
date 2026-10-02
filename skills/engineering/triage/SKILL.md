@@ -44,6 +44,8 @@ These are canonical role names. The actual label strings used in the issue track
 
 State transitions: an unlabeled issue normally goes to `needs-triage` first; from there it moves to `needs-info`, `ready-for-agent`, `ready-for-human`, or `wontfix`. `needs-info` returns to `needs-triage` once the reporter replies. The maintainer can override at any time; flag transitions that look unusual and ask before proceeding.
 
+After triage, the work itself moves through two **lifecycle states**: `ready-for-agent` or `ready-for-human` → `claimed` → `resolved`. `/implement` and `/wayfinder` set these, not `/triage`; the tracker config says where they live (see `triage-labels.md`). Treat a `claimed` or `resolved` issue as already triaged: don't re-triage it unless the maintainer asks. `wontfix` is the only ending `/triage` sets itself.
+
 ## Invocation
 
 The maintainer invokes `/triage` and describes what they want in natural language. Interpret the request and act. Examples:

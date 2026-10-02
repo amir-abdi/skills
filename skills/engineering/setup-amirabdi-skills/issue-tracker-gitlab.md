@@ -26,6 +26,18 @@ When set to `yes`, MRs run through the same labels and states as issues, using t
 
 Unlike GitHub, GitLab numbers issues and MRs separately, so `#42` is unambiguous once you know which surface the maintainer means.
 
+## Lifecycle states
+
+The **lifecycle states** `claimed` and `resolved` (see `triage-labels.md`) use GitLab's native fields, never labels: `claimed` is an assignee, `resolved` is a closed issue.
+
+## When a skill says "claim the ticket"
+
+Run `glab issue update <number> --assignee @me`.
+
+## When a skill says "resolve the ticket"
+
+Post a one-line summary of what landed with `glab issue note <number> --message "..."` (link the commit where there is one), then `glab issue close <number>`.
+
 ## When a skill says "publish to the issue tracker"
 
 Create a GitLab issue.
@@ -42,5 +54,5 @@ Used by `/wayfinder`. The **map** is a single issue with **child** issues as tic
 - **Child ticket**: an issue carrying `Part of #<map>` at the top of its description and labels `wayfinder:<type>` (`research`/`prototype`/`grilling`/`task`). Once claimed, the ticket is assigned to the driving dev.
 - **Blocking**: GitLab's **native blocking link**, the canonical, UI-visible representation. Add it with the `/blocked_by #<n>` quick action, posted as a note (`glab issue note <child> --message "/blocked_by #<blocker>"`). Native blocking links are a Premium/Ultimate feature; on the free tier (or where unavailable) fall back to a `Blocked by: #<n>, #<n>` line at the top of the description. A ticket is unblocked when every blocker is closed.
 - **Frontier query**: `glab issue list -F json` scoped to the map's children, drop any with an open blocker: a native `blocked_by` link to an open issue (`glab api projects/:id/issues/:iid/links`), or an open issue in the `Blocked by` line, or an assignee; first in map order wins.
-- **Claim**: `glab issue update <n> --assignee @me`, the session's first write.
-- **Resolve**: `glab issue note <n> --message "<answer>"`, then `glab issue close <n>`, then append a context pointer (gist + link) to the map's Decisions-so-far.
+- **Claim**: claim the ticket (see above), the session's first write.
+- **Resolve**: `glab issue note <n> --message "<answer>"`, then `glab issue close <n>` (the ticket is now `resolved`), then append a context pointer (gist + link) to the map's Decisions-so-far.

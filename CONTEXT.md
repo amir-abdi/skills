@@ -18,12 +18,17 @@ _Avoid_: ticket (use only when quoting external systems that call them tickets, 
 A `wayfinder` unit: a child **Issue** of a `wayfinder:map` holding a *question* whose resolution is a decision, not a slice of a build to execute. The **decision** qualifier is what keeps it distinct from an implementation ticket; `wayfinder` introduces the term, then uses "ticket".
 
 **Triage role**:
-A canonical state-machine label applied to an **Issue** during triage (e.g. `needs-triage`, `ready-for-afk`). Each role maps to a real label string in the **Issue tracker** via `docs/agents/triage-labels.md`.
+A canonical state-machine label applied to an **Issue** during triage (e.g. `needs-triage`, `ready-for-agent`). Each role maps to a real label string in the **Issue tracker** via `docs/agents/triage-labels.md`.
+
+**Lifecycle state**:
+One of two states an **Issue** moves through after triage: `claimed` (someone is working on it) and `resolved` (the work is done). `/implement` and `/wayfinder` set them. Real trackers store them natively (an assignee, a closed issue); the local markdown tracker writes them on the `Status:` line in place of the **Triage role**. An **Issue** is closed when it is `resolved` or `wontfix`.
+_Avoid_: done, complete, finished (as state names)
 
 ## Relationships
 
 - An **Issue tracker** holds many **Issues**
 - An **Issue** carries one **Triage role** at a time
+- Once work starts, an **Issue** moves through the **Lifecycle states**: `claimed`, then `resolved`
 - A **Decision ticket** is an **Issue** (a child of a `wayfinder:map`)
 
 ## Flagged ambiguities

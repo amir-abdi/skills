@@ -13,3 +13,7 @@ The skills speak in terms of five canonical triage roles. This file maps those r
 When a skill mentions a role (e.g. "apply the AFK-ready triage label"), use the corresponding label string from this table.
 
 Edit the right-hand column to match whatever vocabulary you actually use.
+
+## Lifecycle states are not triage roles
+
+Two more states track the work itself, after triage: `claimed` (someone is working on it) and `resolved` (the work is done). `/implement` and `/wayfinder` set them; `/triage` does not. They are not labels and have no row above: each tracker file says where they live (an assignee and a closed issue on GitHub or GitLab, the `Status:` line on the local markdown tracker).
